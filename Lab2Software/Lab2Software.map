@@ -1,0 +1,56 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Fri Sep 18 15:04:26 2015
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x0000d6
+                   .cinit    romdata   0x00006b    program   0x000004
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00006c      
+            109 out of 1094 program addresses used, program memory utilization is 9%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+          branchingMethod   0x00002c    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+            callOnesDigit   0x000039    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+            callTensDigit   0x000037    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+    changeTensValue_35_10   0x000036    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+              checkIfZero   0x00003b    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+countdown_35_10_OnesDigit_loop   0x00001b    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+countdown_35_10_TensDigit_loop   0x00000e    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+ countdown_9_0_DP_PartOne   0x00003b    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+ countdown_9_0_DP_PartTwo   0x000047    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+countdown_9_0_NoDP_PartOne   0x000053    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+countdown_9_0_NoDP_PartTwo   0x00005f    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+    initialize_35_10_loop   0x00000a    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+                    start   0x000000    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    start   0x000000    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+    initialize_35_10_loop   0x00000a    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+countdown_35_10_TensDigit_loop   0x00000e    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+countdown_35_10_OnesDigit_loop   0x00001b    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+          branchingMethod   0x00002c    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+    changeTensValue_35_10   0x000036    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+            callTensDigit   0x000037    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+            callOnesDigit   0x000039    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+              checkIfZero   0x00003b    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+ countdown_9_0_DP_PartOne   0x00003b    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+ countdown_9_0_DP_PartTwo   0x000047    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+countdown_9_0_NoDP_PartOne   0x000053    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+countdown_9_0_NoDP_PartTwo   0x00005f    program     static C:\Users\Ying\Documents\ece459_files\Lab2Software\Lab2Software.asm
+
+

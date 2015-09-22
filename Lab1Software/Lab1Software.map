@@ -1,0 +1,42 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Sun Sep 13 21:38:52 2015
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000064
+                   .cinit    romdata   0x000032    program   0x000004
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000033      
+            52 out of 1094 program addresses used, program memory utilization is 4%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+            compareToZero   0x000015    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                    delay   0x00000f    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                     dell   0x000011    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                     loop   0x000007    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                    start   0x000000    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                    table   0x000026    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    start   0x000000    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                     loop   0x000007    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                    delay   0x00000f    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                     dell   0x000011    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+            compareToZero   0x000015    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+                    table   0x000026    program     static C:\Users\Ying\Documents\ece459_files\Lab1Software\Lab1Software.asm
+
+

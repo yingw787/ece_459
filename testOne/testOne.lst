@@ -1,0 +1,27 @@
+MPASM  5.51                       TESTONE.ASM   9-3-2015  13:32:34         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001                 org 00 
+                      00002 ; program starts here 
+0000   0103           00003                 clrw                    ;clear W register
+0001   3E08           00004 loop    addlw 08                ;add the number 8 to W register 
+0002   2???           00005                 goto loop
+                      00006                 end                             ; show end of program with "end" directive
+MPASM  5.51                       TESTONE.ASM   9-3-2015  13:32:34         PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+__16F84A                          00000001
+__DEBUG                           1
+loop                              00000001
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

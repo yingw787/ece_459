@@ -1,0 +1,239 @@
+MPASM  5.51                  LAB2SOFTWARE.ASM   9-18-2015  15:04:26         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; This program counts down from 35 to 0
+                      00002 ; in one-second increments from 35 to 10 
+                      00003 ; in 1/10 second increments from 9.9 to 0 
+                      00004 ; when it gets to 0, then an LED comes on 
+                      00005 
+                      00006 ; specify SFRs 
+  00000002            00007 pcl             equ 02 
+  00000003            00008 status          equ 03
+  00000005            00009 porta           equ 05 
+  00000005            00010 trisa           equ 05 
+  00000006            00011 portb           equ 06 
+  00000006            00012 trisb           equ 06 
+                      00013 ; 
+  00000010            00014 tensPointer     equ 10 ; pointer for Tens digit  
+  00000011            00015 onesPointer     equ 11 ; pointer for Ones digit 
+                      00016 ; 
+  00000012            00017 delcntr1        equ 12 ; nested delay loop counter
+  00000013            00018 delcntr2        equ 13 ; super delay loop counter 
+                      00019 ; 
+  00000014            00020 testingValue equ 14 ; include value for testing for branching 
+                      00021 
+Warning[205]: Found directive in column 1. (org)
+                      00022 org 00
+                      00023 
+                      00024 ; program starts here 
+0000   0103           00025 start   clrw 
+0001   1683           00026         bsf status, 5 ; select memory bank 1 
+0002   3000           00027         movlw 00 
+0003   0086           00028         movwf trisb ; set port B to all output 
+0004   0085           00029         movwf trisa ; set port A to all output 
+0005   1283           00030         bcf status, 5 ; select memory bank 0 
+                      00031 
+0006   3006           00032         movlw B'00000110' ; set the tens pointer to point to 3 in the lookup table (offset 6)
+0007   0090           00033         movwf tensPointer 
+                      00034 
+0008   3004           00035         movlw B'00000100' ; set the ones pointer to pont to 5 in the lookup table (offset 4)    
+0009   0091           00036         movwf onesPointer 
+                      00037 
+000A                  00038 initialize_35_10_loop
+000A   3019           00039         movlw D'25' 
+000B   0093           00040         movwf delcntr2 
+000C   30FF           00041         movlw D'255' 
+000D   0092           00042         movwf delcntr1 
+                      00043 
+000E                  00044 countdown_35_10_TensDigit_loop    
+000E   0103           00045         clrw    
+000F   2???           00046         call callTensDigit ; enable the tens digit 
+0010   0085           00047         movwf porta ; set port a output to enable tens digit 
+0011   0810           00048         movfw tensPointer ; move pointer into the W register 
+0012   2???           00049         call countdown_9_0_NoDP_PartOne ; get the first four parts of the LED
+0013   0086           00050         movwf portb ; set port b output as the first half of the tens digit 
+0014   0103           00051         clrw ; clear the W register for call 
+0015   0086           00052         movwf portb ; null the display 
+MPASM  5.51                  LAB2SOFTWARE.ASM   9-18-2015  15:04:26         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0016   0810           00053         movfw tensPointer ; move the tensPointer into the W register for call
+0017   2???           00054         call countdown_9_0_NoDP_PartTwo ; get the second four parts of the LED 
+0018   0086           00055         movwf portb ; set port b output as the second half of the tens digit 
+0019   0103           00056         clrw ; clear the W register for call
+001A   0086           00057         movwf portb ; null the display  
+                      00058 
+001B                  00059 countdown_35_10_OnesDigit_loop 
+001B   0103           00060         clrw 
+001C   2???           00061         call callOnesDigit ; enable the ones digit 
+001D   0085           00062         movwf porta ; set port a output to enable ones digit 
+001E   0811           00063         movfw onesPointer ; set W register to be onesPointer
+001F   2???           00064         call countdown_9_0_NoDP_PartOne ; get the first four parts of the LED 
+0020   0086           00065         movwf portb ; set port b output as the first half of the ones digit 
+0021   0103           00066         clrw ; clear the W register for call
+0022   0086           00067         movwf portb ; null the display 
+0023   0811           00068         movfw onesPointer ; move the onesPointer back into the W register for call
+0024   2???           00069         call countdown_9_0_NoDP_PartTwo ; get the second half of the digits
+0025   0086           00070         movwf portb ; set the display to be the second half of the ones digits
+0026   0103           00071         clrw ; clear the W register for call
+0027   0086           00072         movwf portb ; null the display 
+                      00073 
+                      00074         ; delay loop wrapped in the cycle 
+0028   0B92           00075         decfsz delcntr1, 1 
+0029   2???           00076         goto countdown_35_10_TensDigit_loop
+002A   0B93           00077         decfsz delcntr2, 1
+002B   2???           00078         goto countdown_35_10_TensDigit_loop 
+                      00079         ; at this point, need to decrement a value; increment the onesPointer, or clear the onesPointer 
+                            and increment the tensPointer, or goto the 9.9 to 0 counting loop 
+002C                  00080 branchingMethod
+Message[305]: Using default destination of 1 (file).
+002C   0A91           00081         incf onesPointer 
+                      00082         ; if at the end condition, getting the countdown_9_0_NoDP_PartTwo should result in '00000001' 
+002D   2???           00083         call countdown_9_0_NoDP_PartTwo 
+002E   0094           00084         movwf testingValue
+002F   1814           00085         btfsc testingValue, 0 
+0030   2???           00086         goto changeTensValue_35_10 ; if the output is '00000001' then goto changeTensValue
+0031   3019           00087         movlw D'25' 
+0032   0093           00088         movwf delcntr2 
+0033   30FF           00089         movlw D'255' 
+0034   0092           00090         movwf delcntr1 
+0035   2???           00091         goto countdown_35_10_TensDigit_loop 
+                      00092         
+                      00093         ; use the decimal point as a delimiting factor (hardcoded to hardware unfortunately, but only ne
+                            ed to check one bit)
+                      00094 
+0036   0063           00095 changeTensValue_35_10 sleep 
+                      00096         
+                      00097 
+                      00098 
+                      00099 
+                      00100 
+                      00101 ; test table 2; set multiplexer for porta 
+Message[305]: Using default destination of 1 (file).
+MPASM  5.51                  LAB2SOFTWARE.ASM   9-18-2015  15:04:26         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0037   0782           00102 callTensDigit addwf pcl ; CLEAR THE W REGISTER FIRST!!!!!
+0038   3402           00103         retlw B'00000010'  ; turns on the tens digit 
+                      00104 
+Message[305]: Using default destination of 1 (file).
+0039   0782           00105 callOnesDigit addwf pcl ; CLEAR THE W REGISTER FIRST!!!!!
+003A   3404           00106         retlw B'00000100' ; turns on the ones digit 
+                      00107 
+                      00108 ; checks whether the number moved into the W register is zero; if it is, then place 00000001 into the W 
+                            register and return; if it isn't, place 00000000 into the W register and return 
+003B                  00109 checkIfZero 
+                      00110 
+                      00111 
+                      00112 ; 9 to 0 countdown with decimal point; load in pointers correctly!!! 
+Message[305]: Using default destination of 1 (file).
+003B   0782           00113 countdown_9_0_DP_PartOne addwf pcl 
+003C   34E0           00114         retlw B'11100000' 
+003D   34F0           00115         retlw B'11110000' 
+003E   34E0           00116         retlw B'11100000' 
+003F   3430           00117         retlw B'00110000' 
+0040   34B0           00118         retlw B'10110000' 
+0041   3460           00119         retlw B'01100000' 
+0042   34F0           00120         retlw B'11110000' 
+0043   34D0           00121         retlw B'11010000' 
+0044   3460           00122         retlw B'01100000' 
+0045   34F0           00123         retlw B'11110000' 
+0046   3400           00124         retlw B'00000000' ; end condition: set the decimal point 
+                      00125 
+Message[305]: Using default destination of 1 (file).
+0047   0782           00126 countdown_9_0_DP_PartTwo addwf pcl 
+0048   3407           00127         retlw B'00000111' 
+0049   340F           00128         retlw B'00001111' 
+004A   3401           00129         retlw B'00000001' 
+004B   340F           00130         retlw B'00001111' 
+004C   3407           00131         retlw B'00000111' 
+004D   3407           00132         retlw B'00000111' 
+004E   3403           00133         retlw B'00000011' 
+004F   340B           00134         retlw B'00001011' 
+0050   3401           00135         retlw B'00000001' 
+0051   340D           00136         retlw B'00001101' 
+0052   3400           00137         retlw B'00000000' ; end condition: set the decimal point to zero!! CHECK ONE BIT ONLY!! 
+                      00138 
+                      00139 ; countdown from 9 to 0 with no decimal point; load in pointers correctly! 
+Message[305]: Using default destination of 1 (file).
+0053   0782           00140 countdown_9_0_NoDP_PartOne addwf pcl 
+0054   34E0           00141         retlw B'11100000' 
+0055   34F0           00142         retlw B'11110000' 
+0056   34E0           00143         retlw B'11100000' 
+0057   3430           00144         retlw B'00110000' 
+0058   34B0           00145         retlw B'10110000' 
+0059   3460           00146         retlw B'01100000'
+005A   34F0           00147         retlw B'11110000' 
+005B   34D0           00148         retlw B'11010000' 
+005C   3460           00149         retlw B'01100000' 
+MPASM  5.51                  LAB2SOFTWARE.ASM   9-18-2015  15:04:26         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+005D   34F0           00150         retlw B'11110000' 
+005E   3400           00151         retlw B'00000000' 
+                      00152 
+Message[305]: Using default destination of 1 (file).
+005F   0782           00153 countdown_9_0_NoDP_PartTwo addwf pcl 
+0060   3406           00154         retlw B'00000110' 
+0061   340E           00155         retlw B'00001110' 
+0062   3400           00156         retlw B'00000000' 
+0063   340E           00157         retlw B'00001110' 
+0064   3406           00158         retlw B'00000110' 
+0065   3406           00159         retlw B'00000110'  
+0066   3402           00160         retlw B'00000010'
+0067   340A           00161         retlw B'00001010' 
+0068   3400           00162         retlw B'00000000' 
+0069   340C           00163         retlw B'00001100' 
+006A   3401           00164         retlw B'00000001' ; end condition: SET DECIMAL POINT TO ONE!! CHECK ONE BIT ONLY!       
+                      00165 
+Warning[205]: Found directive in column 1. (end)
+                      00166 end
+MPASM  5.51                  LAB2SOFTWARE.ASM   9-18-2015  15:04:26         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+__16F84A                          00000001
+branchingMethod                   0000002C
+callOnesDigit                     00000039
+callTensDigit                     00000037
+changeTensValue_35_10             00000036
+checkIfZero                       0000003B
+countdown_35_10_OnesDigit_loop    0000001B
+countdown_35_10_TensDigit_loop    0000000E
+countdown_9_0_DP_PartOne          0000003B
+countdown_9_0_DP_PartTwo          00000047
+countdown_9_0_NoDP_PartOne        00000053
+countdown_9_0_NoDP_PartTwo        0000005F
+delcntr1                          00000012
+delcntr2                          00000013
+initialize_35_10_loop             0000000A
+onesPointer                       00000011
+pcl                               00000002
+porta                             00000005
+portb                             00000006
+start                             00000000
+status                            00000003
+tensPointer                       00000010
+testingValue                      00000014
+trisa                             00000005
+trisb                             00000006
+
+Errors   :     0
+Warnings :     2 reported,     0 suppressed
+Messages :     7 reported,     0 suppressed
+
+
