@@ -1,0 +1,4 @@
+Message[305] /Users/yingwang/MPLABXProjects/ece_459/Lab1Software/Lab1Software.X/Lab1Software.asm 29 : Using default destination of 1 (file).
+Warning[202] /Users/yingwang/MPLABXProjects/ece_459/Lab1Software/Lab1Software.X/Lab1Software.asm 37 : Argument out of range.  Least significant bits used.
+Message[305] /Users/yingwang/MPLABXProjects/ece_459/Lab1Software/Lab1Software.X/Lab1Software.asm 64 : Using default destination of 1 (file).
+Warning[205] /Users/yingwang/MPLABXProjects/ece_459/Lab1Software/Lab1Software.X/Lab1Software.asm 77 : Found directive in column 1. (end)

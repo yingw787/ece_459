@@ -1,0 +1,122 @@
+MPASM 5.63  /USERS/YINGWANG/MPLABXPROJECTS/E   9-22-2015  15:40:41         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;specify SFRs
+  00000002            00002 pcl             equ 02
+  00000003            00003 status  equ 03 
+  00000005            00004 porta   equ 05 
+  00000005            00005 trisa   equ 05
+  00000006            00006 portb   equ 06 
+  00000006            00007 trisb   equ 06
+                      00008 ;
+  00000010            00009 pointer equ 10  ;set a general purpose register for the pointer
+                      00010 ; 
+  00000011            00011 delcntr1 equ 11 ; store delay cycles 
+                      00012 
+                      00013 
+                      00014 ; use the org directive to force program start at reset vector
+                      00015         org 00 
+                      00016 ; program starts here 
+0000   0103           00017 start clrw
+0001   1683           00018         bsf status, 5 ;select memory bank 1
+0002   3000           00019         movlw 00 ;set port B to all output
+0003   0086           00020         movwf trisb 
+0004   1283           00021         bcf status, 5;select memory bank 0 
+                      00022 
+                      00023 ; main program starts here 
+0005   3000           00024         movlw 00 
+0006   0090           00025         movwf pointer ; clear the pointer value
+                      00026 
+0007   2???           00027 loop    call table ; call the table; retrieve the 7-segment display binary output for portB 
+0008   0086           00028                 movwf portb ; move to portb 
+Message[305]: Using default destination of 1 (file).
+0009   0A90           00029                 incf pointer ; increment the pointer by 1
+000A   2???           00030                 call delay
+000B   0103           00031                 clrw 
+000C   0810           00032                 movfw pointer
+000D   2???           00033             call compareToZero 
+000E   2???           00034                 goto loop ; delay for one clock cycle           
+                      00035 
+                      00036 ; delay subroutine; this is good 
+Warning[202]: Argument out of range.  Least significant bits used.
+000F   3090           00037 delay movlw D'400' ; set a delay for 400 cycles 
+0010   0091           00038         movwf delcntr1  
+0011   0000           00039 dell    nop 
+0012   0B91           00040                 decfsz delcntr1, 1
+0013   2???           00041                 goto dell 
+0014   0008           00042                 return
+                      00043 
+                      00044 ; puts the PIC into standby mode if the port is displaying zeroes 
+0015   1B86           00045 compareToZero btfsc portb, 7
+0016   0008           00046                 return
+0017   1B06           00047                 btfsc portb, 6
+0018   0008           00048                 return
+0019   1A86           00049                 btfsc portb, 5 
+001A   0008           00050                 return 
+001B   1A06           00051                 btfsc portb, 4 
+MPASM 5.63  /USERS/YINGWANG/MPLABXPROJECTS/E   9-22-2015  15:40:41         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+001C   0008           00052                 return 
+001D   1986           00053                 btfsc portb, 3 
+001E   0008           00054                 return 
+001F   1906           00055                 btfsc portb, 2 
+0020   0008           00056                 return 
+0021   1886           00057                 btfsc portb, 1 
+0022   0008           00058                 return 
+0023   1806           00059                 btfsc portb, 0 
+0024   0008           00060                 return 
+0025   0063           00061                 sleep 
+                      00062 
+                      00063 ; table subroutine; this is good as long as W register is set beforehand
+Message[305]: Using default destination of 1 (file).
+0026   0782           00064 table addwf pcl 
+0027   34FA           00065         retlw B'11111010' ;display for 9 on 7-segment display 
+0028   34FE           00066         retlw B'11111110' ;display for 8 on 7-segment display
+0029   34C8           00067         retlw B'11001000' ;display for 7 on 7-segment display...and so on
+002A   34BE           00068         retlw B'10111110' ;6
+002B   34BA           00069         retlw B'10111010' ;5 
+002C   3478           00070         retlw B'01111000' ;4
+002D   34DA           00071         retlw B'11011010' ;3
+002E   34D6           00072         retlw B'11010110' ;2 
+002F   3448           00073         retlw B'01001000' ;1 
+0030   34EE           00074         retlw B'11101110' ;0 
+0031   3400           00075         retlw B'00000000' ;null
+                      00076 
+Warning[205]: Found directive in column 1. (end)
+                      00077 end
+MPASM 5.63  /USERS/YINGWANG/MPLABXPROJECTS/E   9-22-2015  15:40:41         PAGE  3
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+__16F84A                          00000001
+__DEBUG                           
+__MPLAB_DEBUGGER_SIMULATOR        1
+compareToZero                     00000015
+delay                             0000000F
+delcntr1                          00000011
+dell                              00000011
+loop                              00000007
+pcl                               00000002
+pointer                           00000010
+porta                             00000005
+portb                             00000006
+start                             00000000
+status                            00000003
+table                             00000026
+trisa                             00000005
+trisb                             00000006
+
+Errors   :     0
+Warnings :     2 reported,     0 suppressed
+Messages :     2 reported,     0 suppressed
+
+
